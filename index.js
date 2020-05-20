@@ -159,11 +159,14 @@ app.post('/api/register', async (req, res) => {
   });
   const savedUser = await newUser.save();
   const sentEmail = await transporter.sendMail({
-    from: '"Raphael Kabo" <mail@raphaelkabo.com>',
+    from: '"WitchNet" <contact@witchnet.net>',
     to: req.body.email,
-    subject: "Welcome to HexTTP",
-    text: 'Hi!\n\nYou are receiving this because you have created a new account on HexTTP with this email.\n\n' +
-      'Welcome! Have fun and be safe.'
+    subject: "Welcome to WitchNet!",
+    text: 'Hi ' + req.body.username + '!\n\nYou are receiving this because you have created a new account on WitchNet with this email.\n\n' +
+      'Welcome! Have fun and be safe.\n\n' +
+      'If you have any problems or questions, just reply to this email.\n\n' +
+      'Love,\n\n' +
+      'WitchNet'
   });
   if (!savedUser || !sentEmail) {
     return res.status(500).send('There has been a problem processing your registration.');
@@ -304,7 +307,7 @@ app.post('/api/report', async (req, res) => {
   console.log(req.body)
   console.log('==================')
   const sentEmail = await transporter.sendMail({
-    from: '"Raphael Kabo" <mail@raphaelkabo.com>',
+    from: '"WitchNet" <contact@witchnet.net>',
     to: '"Raphael Kabo" <mail@raphaelkabo.com>',
     subject: "WitchNet User Report",
     text: JSON.stringify(req.body)
