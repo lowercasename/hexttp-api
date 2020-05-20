@@ -40,6 +40,14 @@ transporter.verify(function (error, success) {
   }
 });
 
+// Firebase
+var firebaseAdmin = require("firebase-admin");
+var serviceAccount = require("./firebase.json");
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount),
+  databaseURL: "https://witchnet-app.firebaseio.com"
+});
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -196,15 +204,23 @@ app.post('/api/login', async (req, res) => {
   //   return res.status(401).send(sendError('This account has not been verified.'));
   // }
   // Compare submitted password to database hash
-  bcrypt.compare(req.body.password, user.password, (err, result) => {
+  bcrypt.compare(req.body.password, user.password, async (err, result) => {
     if (!result) {
       console.log("Password verification failed")
       return res.status(401).send(sendError('User not authenticated'));
     }
+    // Create the Firebase token
+    const firebaseToken = await firebaseAdmin.auth().createCustomToken(user._id.toString())
+      .then(function (customToken) {
+        return customToken;
+      })
+      .catch(function (error) {
+        console.log('Error creating Firebase token:', error);
+      });
     const jwtOptions = {
       issuer: 'sweet.sh',
     }
-    return res.status(200).send({ token: JWT.sign({ id: user._id.toString() }, jwtOptions) });
+    return res.status(200).send({ firebaseToken: firebaseToken, token: JWT.sign({ id: user._id.toString() }, jwtOptions) });
   });
 });
 
