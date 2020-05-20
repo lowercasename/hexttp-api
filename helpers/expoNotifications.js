@@ -33,7 +33,7 @@ module.exports = {
         try {
           let receipts = await expo.sendPushNotificationsAsync(chunk);
           console.log(receipts);
-          fs.writeFile('./exporeceipts.log', receipts, (response) => {
+          fs.appendFile('./exporeceipts.log', new Date().toISOString() + ' ' + JSON.stringify(receipts) + '\n', (response) => {
             console.log('Write callback response:', response)
           });
         } catch (error) {
