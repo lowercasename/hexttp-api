@@ -294,7 +294,7 @@ app.post('/api/notification', async (req, res) => {
     case 'drew-tarot-card':
       usersToNotify = await User.find({ _id: { $ne: req.user._id } });
       notificationTitle = `${notification.displayName || notification.username} is drawing a Tarot card`;
-      notificationBody = `${notification.displayName || notification.username} drew the ${notification.cardName}.`;
+      notificationBody = `${notification.displayName || notification.username} drew ${notification.cardName}.`;
   }
   const tokensToNotify = [];
   if (usersToNotify) {
