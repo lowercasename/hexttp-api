@@ -351,7 +351,7 @@ app.get('/api/update-message', async (req, res) => {
       "If you've got any questions, concerns, or ideas for new features, shoot us an email at contact@witchnet.net, or post an advice summoning and the app designer (Mimir on WitchNet) will be sure to see it!\n\n" +
       "Thanks again for hanging out here - have fun and be safe. x"
   }
-  if (req.user.mostRecentUpdateMessageRead.version >= updateMessage.version) {
+  if (req.user.mostRecentUpdateMessageRead >= updateMessage.version) {
     return res.sendStatus(204);
   }
   req.user.mostRecentUpdateMessageRead = updateMessage.version;
