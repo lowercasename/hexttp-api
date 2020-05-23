@@ -339,7 +339,7 @@ app.post('/api/report', async (req, res) => {
   return res.sendStatus(200);
 });
 
-app.post('/api/update-message', async (req, res) => {
+app.get('/api/update-message', async (req, res) => {
   const updateMessage = {
     version: 1,
     content: 'Hello\n\nThere.'
