@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     pronouns: String,
     website: String
   },
+  mostRecentUpdateMessageRead: { type: Number, default: 0 },
   expoPushTokens: [String],
 })
 

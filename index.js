@@ -339,6 +339,18 @@ app.post('/api/report', async (req, res) => {
   return res.sendStatus(200);
 });
 
+app.post('/api/update-message', async (req, res) => {
+  const updateMessage = {
+    version: 1,
+    content: 'Hello\n\nThere.'
+  }
+  if (req.user.mostRecentUpdateMessageRead.version >= updateMessage.version) {
+    return res.sendStatus(204);
+  }
+  return res.status(200).send(updateMessage.content);
+
+});
+
 app.listen(port);
 
 console.log('Server booting on default port: ' + port);
