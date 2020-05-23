@@ -342,12 +342,26 @@ app.post('/api/report', async (req, res) => {
 app.get('/api/update-message', async (req, res) => {
   const updateMessage = {
     version: 1,
-    content: 'Hello\n\nThere.'
+    content: "If you're new to WitchNet, welcome! 🌙\n\n" +
+      "WitchNet was launched on the new moon in May 2020, so it's a brand new place for witches to hang out and help each other, and we're so thrilled you've joined us.\n\n" +
+      "We've been making lots of little updates around launch time, so some new features you might see are:\n" +
+      "🌟 A place to read concluded summoning conversations\n" +
+      "🌟 Cute Tarot cards you can draw right in the app!\n" +
+      "🌟 More granular notification settings - don't want everyone's Tarot notifications? Just turn them off!\n\n" +
+      "If you've got any questions, concerns, or ideas for new features, shoot us an email at contact@witchnet.net, or post an advice summoning and the app designer (Mimir on WitchNet) will be sure to see it!\n\n" +
+      "Thanks again for hanging out here - have fun and be safe. x"
   }
   if (req.user.mostRecentUpdateMessageRead.version >= updateMessage.version) {
     return res.sendStatus(204);
   }
-  return res.status(200).send(updateMessage.content);
+  req.user.mostRecentUpdateMessageRead = updateMessage.version;
+  req.user.save().then(response => {
+    return res.status(200).send(updateMessage.content);
+  })
+  .catch(error => {
+    console.log(error);
+    return res.sendStatus(500);
+  })
 
 });
 
