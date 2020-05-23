@@ -267,6 +267,7 @@ app.post('/api/notification', async (req, res) => {
   let usersToNotify;
   let notificationTitle;
   let notificationBody;
+  let notificationPermission;
   switch (notification.subject) {
     case 'summon-coven':
       const titleDictionary = {
@@ -285,21 +286,24 @@ app.post('/api/notification', async (req, res) => {
       usersToNotify = await User.find({ _id: { $ne: req.user._id } });
       notificationTitle = titleDictionary[notification.subject];
       notificationBody = bodyDictionary[notification.subject];
+      notificationPermission = 'sendSummoningNotifications';
       break;
     case 'new-message':
       usersToNotify = await User.find({ $and: [{ _id: { $in: notification.usersToNotify } }, { _id: { $ne: req.user._id } }] });
       notificationTitle = `${notification.displayName || notification.username} @ ${notification.summonerDisplayName || notification.summonerUsername}'s summoning`;
       notificationBody = (notification.message.length > notificationLength) ? notification.message.substr(0, notificationLength - 1) + '&hellip;' : notification.message;
+      notificationPermission = 'sendChatNotifications';
       break;
     case 'drew-tarot-card':
       usersToNotify = await User.find({ _id: { $ne: req.user._id } });
       notificationTitle = `${notification.displayName || notification.username} is drawing a Tarot card`;
       notificationBody = `${notification.displayName || notification.username} drew ${notification.cardName}.`;
+      notificationPermission = 'sendTarotNotifications';
   }
   const tokensToNotify = [];
   if (usersToNotify) {
     usersToNotify.forEach(async (notifiedUser) => {
-      if (notifiedUser.expoPushTokens.length > 0 && notifiedUser.settings.sendMobileNotifications === true) {
+      if (notifiedUser.expoPushTokens.length > 0 && notifiedUser.settings[notificationPermission] === true) {
         // The app tends to try and send the same token multiple times for some reason, so this is
         // a perfect place to clean out the push tokens array.
         const uniqueTokens = [...new Set(notifiedUser.expoPushTokens)]
