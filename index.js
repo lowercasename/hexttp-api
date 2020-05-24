@@ -339,6 +339,19 @@ app.post('/api/report', async (req, res) => {
   return res.sendStatus(200);
 });
 
+app.post('/api/error', async (req, res) => {
+  console.log('======APP ERROR======');
+  console.log(req.body)
+  console.log('==================')
+  const sentEmail = await transporter.sendMail({
+    from: '"WitchNet" <contact@witchnet.net>',
+    to: '"Raphael Kabo" <mail@raphaelkabo.com>',
+    subject: "WitchNet Error Report",
+    text: JSON.stringify(req.body)
+  });
+  return res.sendStatus(200);
+});
+
 app.get('/api/update-message', async (req, res) => {
   const updateMessage = {
     version: 1,
