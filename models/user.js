@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     displayName: String,
     about: String,
     pronouns: String,
-    website: String
+    website: String,
+    activeSummoningsSort: String,
+    concludedSummoningsSort: String,
+    activeSummoningsFilter: String,
+    concludedSummoningsFilter: String
   },
   mostRecentUpdateMessageRead: { type: Number, default: 0 },
   expoPushTokens: [String],

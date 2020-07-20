@@ -294,11 +294,11 @@ app.post('/api/notification', async (req, res) => {
       notificationBody = (notification.message.length > notificationLength) ? notification.message.substr(0, notificationLength - 1) + '&hellip;' : notification.message;
       notificationPermission = 'sendChatNotifications';
       break;
-    case 'drew-tarot-card':
-      usersToNotify = await User.find({ _id: { $ne: req.user._id } });
-      notificationTitle = `${notification.displayName || notification.username} is drawing a Tarot card`;
-      notificationBody = `${notification.displayName || notification.username} drew ${notification.cardName}.`;
-      notificationPermission = 'sendTarotNotifications';
+    // case 'drew-tarot-card':
+    //   usersToNotify = await User.find({ _id: { $ne: req.user._id } });
+    //   notificationTitle = `${notification.displayName || notification.username} is drawing a Tarot card`;
+    //   notificationBody = `${notification.displayName || notification.username} drew ${notification.cardName}.`;
+    //   notificationPermission = 'sendTarotNotifications';
   }
   const tokensToNotify = [];
   if (usersToNotify) {
