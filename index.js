@@ -267,6 +267,7 @@ app.post('/api/notification', async (req, res) => {
   let usersToNotify;
   let notificationTitle;
   let notificationBody;
+  let notificationData;
   let notificationPermission;
   switch (notification.subject) {
     case 'summon-coven':
@@ -286,12 +287,14 @@ app.post('/api/notification', async (req, res) => {
       usersToNotify = await User.find({ _id: { $ne: req.user._id } });
       notificationTitle = titleDictionary[notification.subject];
       notificationBody = bodyDictionary[notification.subject];
+      notificationData = { routeName: 'UserChatScreen', summoningId: notification.summoningId }
       notificationPermission = 'sendSummoningNotifications';
       break;
     case 'new-message':
       usersToNotify = await User.find({ $and: [{ _id: { $in: notification.usersToNotify } }, { _id: { $ne: req.user._id } }] });
       notificationTitle = `${notification.displayName || notification.username} @ ${notification.summonerDisplayName || notification.summonerUsername}'s summoning`;
-      notificationBody = (notification.message.length > notificationLength) ? notification.message.substr(0, notificationLength - 1) + '&hellip;' : notification.message;
+      notificationBody = (notification.message.length > notificationLength) ? notification.message.substr(0, notificationLength - 1) + '...' : notification.message;
+      notificationData = { routeName: 'UserChatScreen', summoningId: notification.summoningId };
       notificationPermission = 'sendChatNotifications';
       break;
     // case 'drew-tarot-card':
@@ -319,7 +322,8 @@ app.post('/api/notification', async (req, res) => {
       sendExpoNotifications({
         pushTokens: tokensToNotify,
         title: notificationTitle,
-        body: notificationBody
+        body: notificationBody,
+        data: notificationData
       });
     }
   }

@@ -10,7 +10,7 @@ module.exports = {
     }
     return true;
   },
-  sendExpoNotifications: ({ pushTokens, title, body }) => {
+  sendExpoNotifications: ({ pushTokens, title, body, data }) => {
     let notifications = [];
     for (let pushToken of pushTokens) {
       if (!Expo.isExpoPushToken(pushToken)) {
@@ -22,7 +22,7 @@ module.exports = {
         sound: "default",
         title: title,
         body: body,
-        data: { body }
+        data: data
       });
     }
 
