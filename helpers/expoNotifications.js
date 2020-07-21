@@ -26,6 +26,10 @@ module.exports = {
       });
     }
 
+    console.log("SENDING NOTIFICATIONS");
+    console.log(notifications);
+    console.log("=====================");
+
     let chunks = expo.chunkPushNotifications(notifications);
 
     (async () => {
