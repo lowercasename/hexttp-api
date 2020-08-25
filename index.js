@@ -358,7 +358,7 @@ app.post('/api/error', async (req, res) => {
 
 app.get('/api/update-message', async (req, res) => {
   const updateMessage = {
-    version: 3,
+    version: 4,
     // content: "If you're new to WitchNet, welcome! 🌙\n\n" +
     //   "WitchNet was launched on the new moon in May 2020, so it's a brand new place for witches to hang out and help each other, and we're so thrilled you've joined us.\n\n" +
     //   "We've been making lots of little updates around launch time, so some new features you might see are:\n" +
@@ -371,16 +371,22 @@ app.get('/api/update-message', async (req, res) => {
     //   "Thanks for using WitchNet, you lovely folk! I've seen some issues I'm sure you've also all noticed with duplicated summonings, so I'm testing out some bugfixes for those. Hopefully the problem will be resolved soon!\n" +
     //   "If you've got any questions, concerns, or ideas for new features, shoot us an email at contact@witchnet.net!\n\n" +
     //   "Have fun and be safe! x"
-    content: "Updates for 20 July 2020 🌙\n\n" +
-      "Some new features and bugfixes today:\n" +
-      "🌟 Basic sorting for summonings by username, expiry time, age, and type (may only work for new summonings)\n" +
-      "🌟 The 'Concluded Summonings' button has been moved to the top navbar (it's the candle)\n" +
-      "🌟 Tapping on notifications should now send you to the correct chat (still undergoing testing)\n" +
-      "🌟 You can now tap on links in messages!\n" +
-      "🌟 I got rid of notifications for Tarot card drawing because frankly it was annoying me. You can still draw Tarot cards, it's just secret now.\n\n" +
-      "If you don't see the updates, try fully restarting the app.\n" +
-      "Thanks all for your patience with this odd little app, and thanks for being part of it!\n" +
-      "Have fun and be safe. x"
+    // content: "Updates for 20 July 2020 🌙\n\n" +
+    //   "Some new features and bugfixes today:\n" +
+    //   "🌟 Basic sorting for summonings by username, expiry time, age, and type (may only work for new summonings)\n" +
+    //   "🌟 The 'Concluded Summonings' button has been moved to the top navbar (it's the candle)\n" +
+    //   "🌟 Tapping on notifications should now send you to the correct chat (still undergoing testing)\n" +
+    //   "🌟 You can now tap on links in messages!\n" +
+    //   "🌟 I got rid of notifications for Tarot card drawing because frankly it was annoying me. You can still draw Tarot cards, it's just secret now.\n\n" +
+    //   "If you don't see the updates, try fully restarting the app.\n" +
+    //   "Thanks all for your patience with this odd little app, and thanks for being part of it!\n" +
+    //   "Have fun and be safe. x"
+    // }
+    content: "WitchNet is shutting down 🌙\n\n" +
+      "Hi all! WitchNet will be shutting down at the end of this week (Friday 28th August).\n" +
+      "Unfortunately, there's just one of me and I can't keep up with moderating this app given the surpising number of people using it.\n" +
+      "All account data will be deleted after the app is shut down.\n" +
+      "Have fun, be safe, and thank you so much for being part of this wonderful witchy time. x"
     }
   if (req.user.mostRecentUpdateMessageRead >= updateMessage.version) {
     return res.sendStatus(204);
